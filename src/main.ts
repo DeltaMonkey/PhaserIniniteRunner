@@ -1,25 +1,7 @@
-import 'phaser';
+import Phaser from 'phaser';
 
-class PlayGame extends Phaser.Scene {
-
-    image: Phaser.GameObjects.Image;
-
-    constructor() {
-        super('PlayGame');
-    }
-
-    preload() {
-        this.load.image('logo', 'assets/phaser3_logo.png');
-    }
-
-    create() {
-        this.image = this.add.image(400, 300, 'logo');
-    }
-
-    update() {
-        this.image.rotation += 0.01;
-    }
-}
+// Add this line to import Game
+import Game from './scenes/Game';
 
 let configObject: Phaser.Types.Core.GameConfig = {
     scale: {
@@ -27,9 +9,17 @@ let configObject: Phaser.Types.Core.GameConfig = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'thegame',
         width: 800,
-        height: 600,
+        height: 640
     },
-    scene: PlayGame
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {
+                y: 200
+            }
+        }
+    },
+    scene: [Game]
 };
 
-new Phaser.Game(configObject);
+export default new Phaser.Game(configObject);
