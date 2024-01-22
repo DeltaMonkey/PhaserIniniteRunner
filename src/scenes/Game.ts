@@ -19,6 +19,27 @@ export default class Game extends Phaser.Scene
 
     create() {
     
+        this.anims.create({
+            key: 'rocket-mouse-run', // name of the animation
+            // helper to generate frames 
+            frames: this.anims.generateFrameNames('rocket-mouse', {
+                start: 1,
+                end: 4,
+                prefix: 'rocketmouse_run',
+                zeroPad: 2,
+                suffix: ''
+            }),
+            // manuel version of the helper to create frames
+            //frames: [
+            // { key: 'rocket-mouse', frame: 'rocketmouse_run01.png' },
+            // { key: 'rocket-mouse', frame: 'rocketmouse_run02.png' },
+            // { key: 'rocket-mouse', frame: 'rocketmouse_run03.png' },
+            // { key: 'rocket-mouse', frame: 'rocketmouse_run04.png' }
+            //],
+            frameRate: 10,
+            repeat: -1 // -1 to loop forever
+        });
+
         // store the width and height of the game screen
         const width: number = this.scale.width;
         const height: number = this.scale.height;
@@ -36,6 +57,6 @@ export default class Game extends Phaser.Scene
             middleOfHeight,
             'rocket-mouse',
             'rocketmouse_fly01'
-        );
+        ).play('rocket-mouse-run');
     }
 }
