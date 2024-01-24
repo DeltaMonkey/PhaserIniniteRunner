@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 import TextureKeys from '../consts/TextureKeys';
+import SceneKeys from '../consts/SceneKeys';
+import AnimationKeys from '../consts/AnimationKeys';
 
 export default class Game extends Phaser.Scene
 {
     constructor() {
-        super('game');
+        super(SceneKeys.Game);
     }
 
     create() {
@@ -20,11 +22,19 @@ export default class Game extends Phaser.Scene
         const middleOfWidht: number = width * 0.5; 
         const middleOfHeight: number = height * 0.5;
 
-        this.add.sprite(
+        const mouse = this.physics.add.sprite(
             middleOfWidht, 
             middleOfHeight,
             TextureKeys.RocketMouse,
             'rocketmouse_fly01'
-        ).play('rocket-mouse-run');
+        ).play(AnimationKeys.RocketMouseRun);
+
+        const body = mouse.body as Phaser.Physics.Arcade.Body;
+        body.setCollideWorldBounds(true);
+
+        this.physics.world.setBounds(
+            0, 0, // x, y
+            Number.MAX_SAFE_INTEGER, height - 30 // width, height
+        ); 
     }
 }

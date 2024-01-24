@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 import TextureKeys from '../consts/TextureKeys';
+import SceneKeys from '../consts/SceneKeys';
+import AnimationKeys from '../consts/AnimationKeys';
 
 export default class Preloader extends Phaser.Scene 
 {
     constructor() {
-        super('preloader');
+        super(SceneKeys.Preloader);
     }
 
     preload() {
@@ -20,7 +22,7 @@ export default class Preloader extends Phaser.Scene
 
     create() {
         this.anims.create({
-            key: 'rocket-mouse-run', // name of the animation
+            key: AnimationKeys.RocketMouseRun, // name of the animation
             // helper to generate frames 
             frames: this.anims.generateFrameNames(TextureKeys.RocketMouse, {
                 start: 1,
@@ -40,6 +42,6 @@ export default class Preloader extends Phaser.Scene
             repeat: -1 // -1 to loop forever
         });
 
-        this.scene.start('game');
+        this.scene.start(SceneKeys.Game);
     }
 }
