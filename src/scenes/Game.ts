@@ -6,19 +6,7 @@ export default class Game extends Phaser.Scene
         super('game');
     }
 
-    preload() {
-        this.load.image('background', 'assets/house/bg_repeat_340x640.png');
-    
-        // load mouse character as atlas
-        this.load.atlas(
-            'rocket-mouse',
-            'assets/characters/rocket-mouse.png',
-            'assets/characters/rocket-mouse.json'
-        );
-    }
-
     create() {
-    
         this.anims.create({
             key: 'rocket-mouse-run', // name of the animation
             // helper to generate frames 

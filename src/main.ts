@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-// Add this line to import Game
+import Preloader from './scenes/Preloader';
 import Game from './scenes/Game';
 
 let configObject: Phaser.Types.Core.GameConfig = {
@@ -19,7 +19,7 @@ let configObject: Phaser.Types.Core.GameConfig = {
             }
         }
     },
-    scene: [Game]
+    scene: [Preloader, Game]
 };
 
 export default new Phaser.Game(configObject);
