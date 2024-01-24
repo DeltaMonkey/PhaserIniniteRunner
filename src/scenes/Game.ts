@@ -27,6 +27,12 @@ export default class Game extends Phaser.Scene
         .setOrigin(0)
         .setScrollFactor(0,0); // <-- keep from scrolling
         
+        this.add.image(
+            Phaser.Math.Between(900, 1500),
+            501,
+            TextureKeys.MouseHole
+        );
+
         const middleOfWidht: number = width * 0.5; 
         const middleOfHeight: number = height * 0.5;
 
