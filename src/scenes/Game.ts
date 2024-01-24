@@ -32,10 +32,12 @@ export default class Game extends Phaser.Scene
 
         const mouse = this.physics.add.sprite(
             middleOfWidht, 
-            middleOfHeight,
+            height - 30, // set y to top of floor
             TextureKeys.RocketMouse,
             'rocketmouse_fly01'
-        ).play(AnimationKeys.RocketMouseRun);
+        )
+        .setOrigin(0.5, 1) // set origin to mouse feet
+        .play(AnimationKeys.RocketMouseRun);
 
         const body = mouse.body as Phaser.Physics.Arcade.Body;
         body.setCollideWorldBounds(true);
