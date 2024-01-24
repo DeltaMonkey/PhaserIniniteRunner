@@ -5,6 +5,8 @@ import AnimationKeys from '../consts/AnimationKeys';
 
 export default class Game extends Phaser.Scene
 {
+    private background!: Phaser.GameObjects.TileSprite;
+
     constructor() {
         super(SceneKeys.Game);
     }
@@ -17,7 +19,13 @@ export default class Game extends Phaser.Scene
         //this.add.image(0, 0, 'background').setOrigin(0, 0);
         // change this.add.image to this.add.tileSprite
         // notice the changed parameters
-        this.add.tileSprite(0, 0, width, height, TextureKeys.Background).setOrigin(0);
+        this.background = this.add.tileSprite(
+            0, 0, 
+            width, height,
+            TextureKeys.Background
+        )
+        .setOrigin(0)
+        .setScrollFactor(0,0); // <-- keep from scrolling
         
         const middleOfWidht: number = width * 0.5; 
         const middleOfHeight: number = height * 0.5;
@@ -43,5 +51,10 @@ export default class Game extends Phaser.Scene
             0, 0,
             Number.MAX_SAFE_INTEGER, height
         );
+    }
+
+    update(time: number, delta: number): void {
+        // scroll the background
+        this.background.setTilePosition(this.cameras.main.scrollX);
     }
 }
