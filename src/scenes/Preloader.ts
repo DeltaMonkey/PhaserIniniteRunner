@@ -10,16 +10,23 @@ export default class Preloader extends Phaser.Scene
     }
 
     preload() {
+
+        // load background image
         this.load.image(TextureKeys.Background, 'assets/house/bg_repeat_340x640.png');
         
-        this.load.image(TextureKeys.MouseHole, 'assets/house/object_mousehole.png');
-
         // load mouse character as atlas
         this.load.atlas(
             TextureKeys.RocketMouse,
             'assets/characters/rocket-mouse.png',
             'assets/characters/rocket-mouse.json'
-        );
+            );
+       
+        // load mouse holes
+        this.load.image(TextureKeys.MouseHole, 'assets/house/object_mousehole.png');
+
+        // load windows
+        this.load.image(TextureKeys.Window1, 'assets/house/object_window1.png');
+        this.load.image(TextureKeys.Window2, 'assets/house/object_window2.png');
     }
 
     create() {
