@@ -12,7 +12,12 @@ export default class RocketMouse extends Phaser.GameObjects.Container
             .setOrigin(0.5, 1)
             .play(AnimationKeys.RocketMouseRun);
 
+        // Create the flames and play the animation
+        const flames = scene.add.sprite(-60, 45, TextureKeys.RocketMouse)
+            .play(AnimationKeys.RocketFlamesOn);
+        
         // Add as child of Container
+        this.add(flames);
         this.add(mouse);
 
         // Add a physics body

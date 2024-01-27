@@ -44,15 +44,19 @@ export default class Preloader extends Phaser.Scene
                 zeroPad: 2,
                 suffix: ''
             }),
-            // manuel version of the helper to create frames
-            //frames: [
-            // { key: 'rocket-mouse', frame: 'rocketmouse_run01.png' },
-            // { key: 'rocket-mouse', frame: 'rocketmouse_run02.png' },
-            // { key: 'rocket-mouse', frame: 'rocketmouse_run03.png' },
-            // { key: 'rocket-mouse', frame: 'rocketmouse_run04.png' }
-            //],
             frameRate: 10,
             repeat: -1 // -1 to loop forever
+        });
+
+        this.anims.create({
+            key: AnimationKeys.RocketFlamesOn,
+            frames: this.anims.generateFrameNames(TextureKeys.RocketMouse, {
+              start: 1,
+              end: 2,
+              prefix: "flame",
+            }),
+            frameRate: 10,
+            repeat: -1
         });
 
         this.scene.start(SceneKeys.Game);
