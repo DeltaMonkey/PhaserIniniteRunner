@@ -13,6 +13,9 @@ export default class Game extends Phaser.Scene
     private bookcase1!: Phaser.GameObjects.Image;
     private bookcase2!: Phaser.GameObjects.Image;
 
+    private windows: Phaser.GameObjects.Image[] = [];
+    private bookcases: Phaser.GameObjects.Image[] = [];
+
     constructor() {
         super(SceneKeys.Game);
     }
@@ -53,6 +56,9 @@ export default class Game extends Phaser.Scene
             200,
             TextureKeys.Window2
         );
+
+        // Create a new array with the 2 windows
+        this.windows = [this.window1, this.window2];
 
         // Create bookcase 1
         this.bookcase1 = this.add.image(
@@ -121,19 +127,44 @@ export default class Game extends Phaser.Scene
 
         let width = this.window1.width * 2; // multiply by 2 to add some more padding
         if(this.window1.x + width < scrollX) {
+            
+            // Pick random position
             this.window1.x = Phaser.Math.Between(
                 rightEdge + width,
                 rightEdge + width + 800
             );
+
+            // use find() to look for a bookcase that overlaps
+            // width the new window position
+            const overlap: Phaser.GameObjects.Image | undefined = this.bookcases.find(bc => 
+                {
+                    return Math.abs(this.window1.x - bc.x) <= this.window1.width;
+                }
+            );
+
+            // then set visible to true if there is no overlap
+            // false if there is an overlap
+            this.window1.visible = !overlap
         }
 
         width = this.window2.width
         if(this.window2.x + width < scrollX)
         {
+            // Pick random position
             this.window2.x = Phaser.Math.Between(
                 this.window1.x + width,
                 this.window1.x + width + 800
             );
+
+            const overlap: Phaser.GameObjects.Image | undefined = this.bookcases.find(bc => 
+                {
+                    return Math.abs(this.window2.x - bc.x) <= this.window2.width;
+                }
+            );
+
+            // then set visible to true if there is no overlap
+            // false if there is an overlap
+            this.window2.visible = !overlap;
         }
     }
 
@@ -148,6 +179,14 @@ export default class Game extends Phaser.Scene
                 rightEdge + width,
                 rightEdge + width + 800
             );
+
+            const overlap = this.windows.find(win => 
+                {
+                    return Math.abs(this.bookcase1.x - win.x) <= win.width;
+                }    
+            );
+
+            this.bookcase1.visible = !overlap;
         }
 
         width = this.bookcase2.x;
@@ -157,6 +196,14 @@ export default class Game extends Phaser.Scene
                 this.bookcase1.x + width,
                 this.bookcase1.x + width + 800
             );
+
+            const overlap = this.windows.find(win => 
+                {
+                    return Math.abs(this.bookcase2.x - win.x) <= win.width;
+                }
+            )
+
+            this.bookcase2.visible = !overlap;
         }
     }
 }
