@@ -31,6 +31,10 @@ export default class Preloader extends Phaser.Scene
         // load the bookcases
         this.load.image(TextureKeys.Bookcase1, 'assets/house/object_bookcase1.png');
         this.load.image(TextureKeys.Bookcase2, 'assets/house/object_bookcase2.png');
+
+        // load the laser
+        this.load.image(TextureKeys.LaserMiddle, 'assets/house/object_laser.png');
+        this.load.image(TextureKeys.LaserEnd, 'assets/house/object_laser_end.png');
     }
 
     create() {
@@ -79,6 +83,17 @@ export default class Preloader extends Phaser.Scene
                 zeroPad: 2
             }),
             frameRate: 1
+        });
+
+        this.anims.create({
+            key: AnimationKeys.RocketMouseDead,
+            frames: this.anims.generateFrameNames(TextureKeys.RocketMouse, {
+                start: 1,
+                end: 1,
+                prefix: "rocketmouse_dead",
+                zeroPad: 2
+            }),
+            frameRate: 1,
         });
 
         this.scene.start(SceneKeys.Game);

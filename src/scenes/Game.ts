@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import TextureKeys from '../consts/TextureKeys';
 import SceneKeys from '../consts/SceneKeys';
 import RocketMouse from '../game/RocketMouse';
+import LaserObstacle from '../game/LaserObstacle';
 
 export default class Game extends Phaser.Scene
 {
@@ -14,6 +15,10 @@ export default class Game extends Phaser.Scene
 
     private windows: Phaser.GameObjects.Image[] = [];
     private bookcases: Phaser.GameObjects.Image[] = [];
+
+    private laserObstacle!: LaserObstacle;
+
+    private mouse!: RocketMouse;
 
     constructor() {
         super(SceneKeys.Game);
@@ -74,10 +79,10 @@ export default class Game extends Phaser.Scene
         ).setOrigin(0.5, 1);
 
         // Add rocket mouse
-        const mouse = new RocketMouse(this, width * 0.5, height - 30);
-        this.add.existing(mouse);
+        this.mouse = new RocketMouse(this, width * 0.5, height - 30);
+        this.add.existing(this.mouse);
 
-        const body = mouse.body as Phaser.Physics.Arcade.Body;
+        const body = this.mouse.body as Phaser.Physics.Arcade.Body;
         body.setCollideWorldBounds(true);
         body.setVelocityX(200);
 
@@ -86,11 +91,22 @@ export default class Game extends Phaser.Scene
             Number.MAX_SAFE_INTEGER, height - 30 // width, height
         ); 
 
-        this.cameras.main.startFollow(mouse);
+        this.cameras.main.startFollow(this.mouse);
         this.cameras.main.setBounds(
             0, 0,
             Number.MAX_SAFE_INTEGER, height
         );
+
+        this.laserObstacle = new LaserObstacle(this, 900, 100);
+        this.add.existing(this.laserObstacle);
+
+        this.physics.add.overlap(
+            this.laserObstacle,
+            this.mouse,
+            this.handleOverlapLaser,
+            undefined,
+            this
+        )
     }
 
     update(time: number, delta: number): void {
@@ -102,6 +118,8 @@ export default class Game extends Phaser.Scene
         this.wrapWindows();
 
         this.wrapBookcases();
+
+        this.wrapLaserObstacle();
     }
 
     private wrapMouseHole() {
@@ -204,5 +222,36 @@ export default class Game extends Phaser.Scene
 
             this.bookcase2.visible = !overlap;
         }
+    }
+
+    private wrapLaserObstacle() {
+        const scrollX = this.cameras.main.scrollX;
+        const rightEdge = scrollX + this.scale.width;
+
+        // body variable with specific physics body type
+        const body = this.laserObstacle.body as 
+            Phaser.Physics.Arcade.StaticBody;
+
+        // scrollX is checks the 0,0
+        // laser obstacle leaves the screen
+        if(this.laserObstacle.x + body.width < scrollX)
+        {
+            this.laserObstacle.x = Phaser.Math.Between(
+                rightEdge + body.width,
+                rightEdge + body.width + 1000
+            );
+
+            this.laserObstacle.y = Phaser.Math.Between(0, 300);
+
+            body.position.x = this.laserObstacle.x + body.offset.x;
+            body.position.y = this.laserObstacle.y;
+        }
+    }
+
+    private handleOverlapLaser(
+        obj1: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
+        obj2: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
+    ): void{
+        this.mouse.kill();
     }
 }
