@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import TextureKeys from '../consts/TextureKeys';
 import AnimationKeys from '../consts/AnimationKeys';
+import SecretKeys from '../consts/SceneKeys';
 
 enum MouseState
 {
@@ -95,6 +96,10 @@ export default class RocketMouse extends Phaser.GameObjects.Container
             {
                 // make a complete stop
                 body.setVelocity(0, 0);
+
+                if(!this.scene.scene.isActive(SecretKeys.GameOver))
+                    this.scene.scene.run(SecretKeys.GameOver);
+
                 break;
             }
         }

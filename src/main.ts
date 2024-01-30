@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import Preloader from './scenes/Preloader';
 import Game from './scenes/Game';
+import GameOver from './scenes/GameOver';
 
 let configObject: Phaser.Types.Core.GameConfig = {
     scale: {
@@ -20,7 +21,7 @@ let configObject: Phaser.Types.Core.GameConfig = {
             debug: true
         }
     },
-    scene: [Preloader, Game]
+    scene: [Preloader, Game, GameOver]
 };
 
 export default new Phaser.Game(configObject);

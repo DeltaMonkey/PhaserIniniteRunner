@@ -1,6 +1,7 @@
 enum SecretKeys {
     Preloader = 'preloader',
-    Game = 'game'
+    Game = 'game',
+    GameOver = 'game-over'
 }
 
 export default SecretKeys;
