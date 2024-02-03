@@ -85,7 +85,7 @@ export default class RocketMouse extends Phaser.GameObjects.Container
                 body.velocity.x *= 0.99;
 
                 // once less than 5 we can say stop
-                if(body.velocity.x <= 5)
+                if(body.velocity.x <= 25)
                 {
                     this.mouseState = MouseState.Dead;
                 }
