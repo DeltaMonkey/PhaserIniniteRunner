@@ -100,10 +100,11 @@ export default class Game extends Phaser.Scene
 
         this.physics.world.setBounds(
             0, 0, // x, y
-            Number.MAX_SAFE_INTEGER, height - 30 // width, height
+            Number.MAX_SAFE_INTEGER, height - 55
         ); 
 
         this.cameras.main.startFollow(this.mouse);
+        this.cameras.main.followOffset.set(width - 1000, height);
         this.cameras.main.setBounds(
             0, 0,
             Number.MAX_SAFE_INTEGER, height
@@ -249,6 +250,8 @@ export default class Game extends Phaser.Scene
             )
 
             this.bookcase2.visible = !overlap;
+
+            this.spawnCoins();
         }
     }
 
@@ -316,9 +319,12 @@ export default class Game extends Phaser.Scene
             const body = coin.body as Phaser.Physics.Arcade.StaticBody;
             body.setCircle(body.width * 0.5);
             body.enable = true;
+            
+            body.updateFromGameObject()
 
             // move x a random amount
             x += coin.width * 1.5;
+
         }
     }
 
